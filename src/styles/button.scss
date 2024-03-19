@@ -1,8 +1,37 @@
-// styles/buttons.scss
-.button {
+$button-color: grey;
+$button-hover-color: darken($button-color, 10%);
+$border-radius: 4px;
+
+.flex {
+  display: flex;
+}
+.layoutshape {
+  height: 120px;
+  width: 200px;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  &:hover {
     background-color: #ffa200;
-    &:hover {
-      background-color: #6eda78;
-    }
   }
-  
+}
+.button {
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: grey;
+
+  &.circle {
+    border-radius: 50%;
+    width: 100px;
+    height: 95px;
+  }
+
+  &.rectangle {
+    border-radius: $border-radius;
+    width: 100px;
+    height: 95px;
+  }
+}
