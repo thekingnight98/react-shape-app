@@ -110,6 +110,26 @@ $border-radius: 4px;
   border-bottom: 50px solid transparent;
   border-left: 100px solid $button-color;
 }
+.pentagon {
+  width: 100px;
+  height: 100px;
+  background-color: $button-color;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+.hexagon {
+  width: 100px;
+  height: 100px;
+  background-color: $button-color;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+.octagon {
+  width: 100px;
+  height: 100px;
+  background-color: $button-color;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+
 
 .button {
   padding: 10px 15px;
@@ -127,6 +147,11 @@ $border-radius: 4px;
   &.rectangle {
     border-radius: $border-radius;
     width: 100px;
+    height: 95px;
+  }
+  &.long-rectangle {
+    border-radius: $border-radius;
+    width: 180px;
     height: 95px;
   }
   // วงรี

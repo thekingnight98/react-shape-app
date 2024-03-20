@@ -16,22 +16,22 @@ function LayoutStyle() {
       <Row justify="center" gutter={[16, 16]}>
         <Col>
           <div className="layoutshape gap-1">
-            <button className="triangle-left"></button>
+            <div className="triangle-left"></div>
             <div className="label">Move Shape</div>
           </div>
         </Col>
         <Col className="flex mt-1">
           <div className="layoutshape-move-position">
             <div className="layoutshape-move-position flex-column">
-              <button className="triangle-up gap-1"></button>
-              <button className="triangle-down gap-1"></button>
+              <div className="triangle-up gap-1"></div>
+              <div className="triangle-down gap-1"></div>
             </div>
             <div className="label">Move position</div>
           </div>
         </Col>
         <Col>
           <div className="layoutshape gap-1">
-            <button className="triangle-right"></button>
+            <div className="triangle-right"></div>
             <div className="label">Move Shape</div>
           </div>
         </Col>
@@ -41,22 +41,43 @@ function LayoutStyle() {
       <Row className="mt-2" justify="center" gutter={[16, 16]}>
         <Col>
           <div className="layoutshape gap-1">
-            <button className="button circle"></button>
+            <div className="button circle"></div>
           </div>
         </Col>
         <Col>
           <div className="layoutshape gap-1">
-            <button className="button rectangle"></button>
+            <div className="button rectangle"></div>
           </div>
         </Col>
         <Col>
           <div className="layoutshape gap-1">
-            <button className="button ellipse"></button>
+            <div className="button ellipse"></div>
           </div>
         </Col>
         <Col>
           <div className="layoutshape gap-1">
-            <button className="button rhombus"></button>
+            <div className="button rhombus"></div>
+          </div>
+        </Col>
+
+        <Col>
+          <div className="layoutshape gap-1">
+            <div className="button long-rectangle"></div>
+          </div>
+        </Col>
+        <Col>
+          <div className="layoutshape gap-1">
+            <div className="pentagon"></div>
+          </div>
+        </Col>
+        <Col>
+          <div className="layoutshape gap-1">
+            <div className="hexagon "></div>
+          </div>
+        </Col>
+        <Col>
+          <div className="layoutshape gap-1">
+            <div className="octagon "></div>
           </div>
         </Col>
         
