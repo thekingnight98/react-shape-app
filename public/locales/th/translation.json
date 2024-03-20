@@ -4,5 +4,7 @@
   "test_3": "แบบทดสอบที่ 3",
   "web_management": "การจัดการหน้าเว็บ",
   "api_connection": "การเชื่อมต่อ API",
-  "form_management": "การจัดการหน้าฟอร์ม"
+  "form_management": "การจัดการหน้าฟอร์ม",
+  "move_position" : "เปลี่ยนตำแหน่ง",
+  "move_shape" : "เลื่อนรูปแบบ"
 }

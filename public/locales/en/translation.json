@@ -4,5 +4,7 @@
   "test_3": "Test 3",
   "web_management": "Web Management",
   "api_connection": "API Connection",
-  "form_management": "Form Management"
+  "form_management": "Form Management",
+  "move_position" : "Move Position",
+  "move_shape" : "Move Shape"
 }
