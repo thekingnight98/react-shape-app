@@ -5,17 +5,112 @@ $border-radius: 4px;
 .flex {
   display: flex;
 }
+.layoutshape-move-position {
+  width: 400px;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  &:hover {
+    background-color: #ffa200;
+    
+    .label {
+      background-color: #6eda78;
+    }
+    .layoutshape-move-position {
+      background-color: #ffa200;
+    }
+  }
+
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .label {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #6eda78;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: $border-radius;
+    white-space: nowrap;
+  }
+}
 .layoutshape {
-  height: 120px;
+  height: 180px;
   width: 200px;
   background-color: #fff;
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column; // เพื่อให้เนื้อหาภายในจัดวางเป็นแนวตั้ง
+  position: relative; // ทำให้สามารถใช้ absolute positioning กับลูกได้
   &:hover {
     background-color: #ffa200;
   }
+
+  .label {
+    position: absolute;
+    bottom: -20px; // ปรับตำแหน่งให้อยู่ด้านล่างของ layoutshape
+    left: 50%;
+    transform: translateX(-50%); // จัดกึ่งกลางแนวแกน X
+    background-color: #6eda78;
+    color: white;
+    padding: 5px 10px; // ปรับขนาดพื้นที่รอบข้อความ
+    border-radius: $border-radius;
+    white-space: nowrap; // ห้ามข้อความถูกแบ่งบรรทัด
+  }
+  .label-move-position {
+    position: absolute;
+    bottom: -20px;
+    left: 0%;
+    transform: translateX(-50%);
+    background-color: #6eda78;
+    color: white;
+    padding: 5px 10px;
+    border-radius: $border-radius;
+    white-space: nowrap;
+  }
 }
+
+.triangle-up {
+  width: 0;
+  height: 0;
+  padding: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid $button-color;
+}
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 100px solid $button-color;
+}
+
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  border-right: 100px solid $button-color;
+}
+
+.triangle-right {
+  width: 0;
+  height: 0;
+  border-top: 50px solid transparent;
+  border-bottom: 50px solid transparent;
+  border-left: 100px solid $button-color;
+}
+
 .button {
   padding: 10px 15px;
   border: none;
@@ -33,5 +128,19 @@ $border-radius: 4px;
     border-radius: $border-radius;
     width: 100px;
     height: 95px;
+  }
+  // วงรี
+  &.ellipse {
+    border-radius: 50% / 100%;
+    width: 120px;
+    height: 80px;
+    background-color: $button-color;
+  }
+  // สี่เหลี่ยมคางหมู
+  &.rhombus {
+    width: 100px;
+    height: 100px;
+    background-color: $button-color;
+    transform: rotate(45deg);
   }
 }
