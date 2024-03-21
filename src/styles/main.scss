@@ -35,3 +35,19 @@ a {
 .pb-5 {
   padding-bottom: 2.5rem;
 }
+
+.px-3 {
+  padding: 1.5rem;
+}
+
+.container {
+  max-width: 1366px;
+  max-height: 768px;
+  width: auto;
+  height: auto;
+  margin: 80px 300px 30px 300px;
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 10px;
+}

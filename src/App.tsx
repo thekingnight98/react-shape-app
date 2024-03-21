@@ -4,6 +4,7 @@ import { Dropdown, Menu, Space, Card, Row, Col } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LayoutStyle from "./components/LayoutStyle";
+import FormManagement from "./components/FormManagement";
 
 import "./styles/main.scss";
 
@@ -25,7 +26,7 @@ function App() {
   return (
     <Router>
       <div className="body-background">
-        <div style={{ textAlign: "right", padding: "10px" }}>
+        <div style={{ textAlign: "right", padding: "20px" }}>
           <Dropdown overlay={menu} trigger={["click"]}>
             <a
               onClick={(e) => e.preventDefault()}
@@ -79,21 +80,28 @@ function App() {
                       <Col span={24}>{t("api_connection")}</Col>
                     </Row>
                   </Card>
-                  <Card
-                    style={{ width: 300, textAlign: "left", cursor: "pointer" }}
-                  >
-                    <Row gutter={[0, 16]}>
-                      <Col span={24}>{t("test_3")}</Col>
-                    </Row>
-                    <Row gutter={[0, 16]}>
-                      <Col span={24}>{t("form_management")}</Col>
-                    </Row>
-                  </Card>
+                  <Link to="/formManagement">
+                    <Card
+                      style={{
+                        width: 300,
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Row gutter={[0, 16]}>
+                        <Col span={24}>{t("test_3")}</Col>
+                      </Row>
+                      <Row gutter={[0, 16]}>
+                        <Col span={24}>{t("form_management")}</Col>
+                      </Row>
+                    </Card>
+                  </Link>
                 </div>
               </>
             }
           />
           <Route path="/layoutStyle" element={<LayoutStyle />} />
+          <Route path="/formManagement" element={<FormManagement />} />
         </Routes>
       </div>
     </Router>

@@ -96,7 +96,7 @@ function LayoutStyle() {
       </Row>
 
       {/* display shapes */}
-      <Row className="mt-5 pb-5 container" gutter={[16, 16]}>
+      <Row className="mt-5 pb-5" gutter={[16, 16]}>
         {shapes.map((shape, index) => (
           <Col key={index} span={6}>
             <div onClick={randomizeShapes} className={`layoutshape gap-1`}>
