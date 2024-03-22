@@ -4,7 +4,7 @@ export interface PersonFormData {
     prefix: string;
     firstName: string;
     lastName: string;
-    birthdate: moment.Moment; // หรือ string ถ้าคุณไม่ต้องการใช้ object Moment
+    birthdate: moment.Moment;
     nationality: string;
     idCard: string;
     gender: 'male' | 'female' | 'unspecified';
