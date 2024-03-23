@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -9,6 +9,8 @@ import {
   Radio,
   Row,
   Col,
+  Table,
+  Space,
 } from "antd";
 import { useDispatch } from "react-redux";
 import { addData } from "../features/formSlice";
@@ -17,23 +19,78 @@ import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
+interface TableDataType {
+  key: number;
+  name: string;
+  gender: string;
+  phoneNumber: string;
+  nationality: string;
+}
+
 const FormManagement: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const onFinish = (values: PersonFormData) => {
-    console.log(values);
+  const [tableData, setTableData] = useState<TableDataType[]>([]);
 
+  const onFinish = (values: PersonFormData) => {
+    const newData = {
+      key: Date.now(), 
+      name: `${values.prefix} ${values.firstName} ${values.lastName}`,
+      gender: values.gender,
+      phoneNumber: values.phoneNumber,
+      nationality: values.nationality,
+    };
+    setTableData([...tableData, newData]);
     dispatch(addData(values));
+    form.resetFields();
   };
+
+  const handleDelete = (key: number) => {
+    const dataSource = [...tableData];
+    setTableData(dataSource.filter((item) => item.key !== key));
+  };
+
+  const columns = [
+    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Gender", dataIndex: "gender", key: "gender" },
+    { title: "PhoneNumber", dataIndex: "phoneNumber", key: "phoneNumber" },
+    { title: "Nationality", dataIndex: "nationality", key: "nationality" },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, record: { key: any }) => (
+        <Space size="middle">
+          <Button onClick={() => handleDelete(record.key)} type="link">
+            Delete
+          </Button>
+        </Space>
+      ),
+    },
+  ];
 
   const onReset = () => {
     form.resetFields();
   };
 
+  useEffect(() => {
+    // โหลดข้อมูลจาก Local Storage และกำหนดให้กับ state เมื่อคอมโพเนนต์ถูกโหลด
+    const loadData = localStorage.getItem("tableData");
+    if (loadData) {
+      setTableData(JSON.parse(loadData));
+    }
+  }, []);
+
+  useEffect(() => {
+    // อัพเดท Local Storage ทุกครั้งที่ tableData มีการเปลี่ยนแปลง
+    if (tableData.length > 0) {
+      localStorage.setItem("tableData", JSON.stringify(tableData));
+    }
+  }, [tableData]);
+
   return (
-    <>
+    <div className="mb-4 mx-4">
       <h2 className="ml-4">{t("form_management")}</h2>
       <div className="container">
         <Form
@@ -255,7 +312,10 @@ const FormManagement: React.FC = () => {
           </Row>
         </Form>
       </div>
-    </>
+      <div className="pb-5">
+        <Table columns={columns} dataSource={tableData} />
+      </div>
+    </div>
   );
 };
 

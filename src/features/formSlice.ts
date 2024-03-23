@@ -9,7 +9,7 @@ const initialState: FormState = {
   formData: [],
 };
 
-export const formSlice = createSlice({
+export const formSlice:any = createSlice({
   name: 'form',
   initialState,
   reducers: {
