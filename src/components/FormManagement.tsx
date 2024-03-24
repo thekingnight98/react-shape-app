@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import moment from "moment";
 import {
   Form,
   Input,
@@ -22,9 +23,14 @@ const { Option } = Select;
 interface TableDataType {
   key: number;
   name: string;
-  gender: string;
+  gender: "male" | "female" | "unspecified";
+  phoneCountryCode : string;
   phoneNumber: string;
   nationality: string;
+  birthdate: string; 
+  idCard: string;
+  passport: string;
+  salary: number;
 }
 
 const FormManagement: React.FC = () => {
@@ -35,13 +41,21 @@ const FormManagement: React.FC = () => {
   const [tableData, setTableData] = useState<TableDataType[]>([]);
 
   const onFinish = (values: PersonFormData) => {
+    const formattedBirthdate = moment.isMoment(values.birthdate) ? values.birthdate.format("YYYY-MM-DD") : values.birthdate;
+    
     const newData = {
-      key: Date.now(), 
+      key: Date.now(),
       name: `${values.prefix} ${values.firstName} ${values.lastName}`,
       gender: values.gender,
+      phoneCountryCode : values.phoneCountryCode,
       phoneNumber: values.phoneNumber,
       nationality: values.nationality,
+      birthdate: formattedBirthdate,
+      idCard: values.idCard,
+      passport: values.passport,
+      salary: values.salary,
     };
+  
     setTableData([...tableData, newData]);
     dispatch(addData(values));
     form.resetFields();
