@@ -6,7 +6,6 @@ import {
   Button,
   Select,
   DatePicker,
-  Checkbox,
   Radio,
   Row,
   Col,
@@ -14,9 +13,10 @@ import {
   Space,
 } from "antd";
 import { useDispatch } from "react-redux";
-import { addData , deleteData , editData} from "../features/formSlice";
+import { addData, deleteData, editData } from "../features/formSlice";
 import { PersonFormData } from "../types";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -24,30 +24,47 @@ interface TableDataType {
   key: number;
   name: string;
   gender: "male" | "female" | "unspecified";
-  phoneCountryCode : string;
+  phoneCountryCode: string;
   phoneNumber: string;
   nationality: string;
-  birthdate: string; 
+  birthdate: string;
   idCard: string;
   passport: string;
   salary: number;
 }
 
 const FormManagement: React.FC = () => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    // clear error require when change language
+    const handleLanguageChange = () => {
+      form.resetFields();
+    };
+
+    i18n.on("languageChanged", handleLanguageChange);
+
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange);
+    };
+  }, [i18n, form]);
+
+  const dispatch = useDispatch();
 
   const [tableData, setTableData] = useState<TableDataType[]>([]);
 
   const onFinish = (values: PersonFormData) => {
-    const formattedBirthdate = moment.isMoment(values.birthdate) ? values.birthdate.format("YYYY-MM-DD") : values.birthdate;
-    
+    const formattedBirthdate = moment.isMoment(values.birthdate)
+      ? values.birthdate.format("YYYY-MM-DD")
+      : values.birthdate;
+
     const newData = {
       key: Date.now(),
       name: `${values.prefix} ${values.firstName} ${values.lastName}`,
       gender: values.gender,
-      phoneCountryCode : values.phoneCountryCode,
+      phoneCountryCode: values.phoneCountryCode,
       phoneNumber: values.phoneNumber,
       nationality: values.nationality,
       birthdate: formattedBirthdate,
@@ -55,16 +72,18 @@ const FormManagement: React.FC = () => {
       passport: values.passport,
       salary: values.salary,
     };
-  
+
     setTableData([...tableData, newData]);
-    dispatch(addData(values));
+    dispatch(addData({ ...values, birthdate: formattedBirthdate }));
     form.resetFields();
   };
 
   const handleDelete = (key: number) => {
     const dataSource = [...tableData];
+    const updatedData = dataSource.filter((item) => item.key !== key);
+    setTableData(updatedData);
     dispatch(deleteData(key));
-    setTableData(dataSource.filter((item) => item.key !== key));
+    localStorage.setItem("tableData", JSON.stringify(updatedData));
   };
 
   const handleEdit = (editedData: PersonFormData) => {
@@ -81,7 +100,6 @@ const FormManagement: React.FC = () => {
       key: "action",
       render: (_: any, record: { key: any }) => (
         <Space size="middle">
-          <Button onClick={() => handleEdit(record.key)} type="link">Edit</Button>
           <Button onClick={() => handleDelete(record.key)} type="link">
             Delete
           </Button>
@@ -111,7 +129,10 @@ const FormManagement: React.FC = () => {
 
   return (
     <div className="mb-4 mx-4">
-      <h2 className="ml-4">{t("form_management")}</h2>
+      <div className="flex justify-between">
+        <h2 className="ml-4">{t("form_management")}</h2>
+        <Button onClick={() => navigate("/")}>หน้าหลัก</Button>
+      </div>
       <div className="container">
         <Form
           form={form}
@@ -123,25 +144,21 @@ const FormManagement: React.FC = () => {
             <Col span={5}>
               <Form.Item
                 name="prefix"
-                label="คำนำหน้า"
-                rules={[
-                  { required: true, message: "Please select your prefix!" },
-                ]}
+                label={t("prefix")}
+                rules={[{ required: true, message: `${t("error_prefix")}` }]}
               >
                 <Select placeholder="Select a prefix">
-                  <Option value="mr">นาย</Option>
-                  <Option value="ms">นางสาว</Option>
-                  <Option value="mrs">นาง</Option>
+                  <Option value="mr">{t("mr")}</Option>
+                  <Option value="ms">{t("ms")}</Option>
+                  <Option value="mrs">{t("mrs")}</Option>
                 </Select>
               </Form.Item>
             </Col>
             <Col span={9}>
               <Form.Item
                 name="firstName"
-                label="ชื่อจริง"
-                rules={[
-                  { required: true, message: "Please input your first name!" },
-                ]}
+                label={t("firstName")}
+                rules={[{ required: true, message: t("error_firstName") }]}
               >
                 <Input />
               </Form.Item>
@@ -149,10 +166,8 @@ const FormManagement: React.FC = () => {
             <Col span={10}>
               <Form.Item
                 name="lastName"
-                label="นามสกุล"
-                rules={[
-                  { required: true, message: "Please input your last name!" },
-                ]}
+                label={t("lastName")}
+                rules={[{ required: true, message: t("error_lastName") }]}
               >
                 <Input />
               </Form.Item>
@@ -163,23 +178,21 @@ const FormManagement: React.FC = () => {
           <Row gutter={24}>
             <Col span={5}>
               <Form.Item
-                label="วันเกิด"
+                label={t("birthdate")}
                 name="birthdate"
-                rules={[
-                  { required: true, message: "Please select your birthdate!" },
-                ]}
+                rules={[{ required: true, message: t("error_birthdate") }]}
               >
                 <DatePicker format="YYYY-MM-DD" />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item
-                label="สัญชาติ"
+                label={t("nationality")}
                 name="nationality"
                 rules={[
                   {
                     required: true,
-                    message: "Please select your nationality!",
+                    message: t("error_nationality"),
                   },
                 ]}
               >
@@ -195,9 +208,9 @@ const FormManagement: React.FC = () => {
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item
-                label="เลขบัตรประชาชน"
+                label={t("idCard")}
                 name={["idCard", "part1"]}
-                rules={[{ required: true, message: "กรุณากรอกข้อมูล" }]}
+                rules={[{ required: true, message: t("error_nationality") }]}
                 style={{ marginBottom: 0 }}
               >
                 <Row gutter={8}>
@@ -210,7 +223,9 @@ const FormManagement: React.FC = () => {
                   <Col span={4}>
                     <Form.Item
                       name={["idCard", "part2"]}
-                      rules={[{ required: true, message: "กรุณากรอกข้อมูล" }]}
+                      rules={[
+                        { required: true, message: t("error_nationality") },
+                      ]}
                       noStyle
                     >
                       <Input maxLength={4} style={{ textAlign: "center" }} />
@@ -220,7 +235,9 @@ const FormManagement: React.FC = () => {
                   <Col span={4}>
                     <Form.Item
                       name={["idCard", "part3"]}
-                      rules={[{ required: true, message: "กรุณากรอกข้อมูล" }]}
+                      rules={[
+                        { required: true, message: t("error_nationality") },
+                      ]}
                       noStyle
                     >
                       <Input maxLength={5} style={{ textAlign: "center" }} />
@@ -230,7 +247,9 @@ const FormManagement: React.FC = () => {
                   <Col span={3}>
                     <Form.Item
                       name={["idCard", "part4"]}
-                      rules={[{ required: true, message: "กรุณากรอกข้อมูล" }]}
+                      rules={[
+                        { required: true, message: t("error_nationality") },
+                      ]}
                       noStyle
                     >
                       <Input maxLength={2} style={{ textAlign: "center" }} />
@@ -240,7 +259,9 @@ const FormManagement: React.FC = () => {
                   <Col span={2}>
                     <Form.Item
                       name={["idCard", "part5"]}
-                      rules={[{ required: true, message: "กรุณากรอกข้อมูล" }]}
+                      rules={[
+                        { required: true, message: t("error_nationality") },
+                      ]}
                       noStyle
                     >
                       <Input maxLength={1} style={{ textAlign: "center" }} />
@@ -255,15 +276,13 @@ const FormManagement: React.FC = () => {
             <Col span={8}>
               <Form.Item
                 name="gender"
-                label="เพศ"
-                rules={[
-                  { required: true, message: "Please select your gender!" },
-                ]}
+                label={t("gender")}
+                rules={[{ required: true, message: t("error_gender") }]}
               >
                 <Radio.Group>
-                  <Radio value="male">ชาย</Radio>
-                  <Radio value="female">หญิง</Radio>
-                  <Radio value="unspecified">ไม่ระบุ</Radio>
+                  <Radio value="male">{t("gender_male")}</Radio>
+                  <Radio value="female">{t("gender_female")}</Radio>
+                  <Radio value="unspecified">{t("gender_unspecified")}</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
@@ -272,9 +291,11 @@ const FormManagement: React.FC = () => {
           <Row gutter={24}>
             <Col span={6}>
               <Form.Item
-                label="หมายเลขโทรศัพท์"
+                label={t("phoneCountryCode")}
                 name="phoneCountryCode"
-                rules={[{ required: true, message: "กรุณาเลือกรหัสประเทศ!" }]}
+                rules={[
+                  { required: true, message: t("error_phoneCountryCode") },
+                ]}
               >
                 <Select>
                   <Option value="+66">+66</Option>
@@ -287,18 +308,16 @@ const FormManagement: React.FC = () => {
             <Col span={8}>
               <Form.Item
                 name="phoneNumber"
-                rules={[
-                  { required: true, message: "กรุณากรอกหมายเลขโทรศัพท์!" },
-                ]}
+                rules={[{ required: true, message: t("error_phoneNumber") }]}
               >
-                <Input placeholder="หมายเลขโทรศัพท์" />
+                <Input />
               </Form.Item>
             </Col>
           </Row>
           {/* แถวที่ 6 */}
           <Row gutter={24}>
             <Col span={10}>
-              <Form.Item name="passport" label="หนังสือเดินทาง">
+              <Form.Item name="passport" label={t("passport")}>
                 <Input />
               </Form.Item>
             </Col>
@@ -309,9 +328,9 @@ const FormManagement: React.FC = () => {
             <Col span={10}>
               <Form.Item
                 name="salary"
-                rules={[{ required: true, message: "กรุณากรอกเงินเดือน!" }]}
+                rules={[{ required: true, message: t("error_salary") }]}
                 style={{ marginBottom: 0 }}
-                label="เงินเดือนที่คาดหวัง"
+                label={t("salary")}
               >
                 <Form.Item>
                   <Input type="number" />
@@ -325,9 +344,9 @@ const FormManagement: React.FC = () => {
                 htmlType="reset"
                 style={{ marginRight: "20px" }}
               >
-                ล้างข้อมูล
+                {t("reset_button")}
               </Button>
-              <Button htmlType="submit">ส่งข้อมูล</Button>
+              <Button htmlType="submit">{t("submit_button")}</Button>
             </Col>
           </Row>
         </Form>
