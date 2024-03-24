@@ -25,9 +25,12 @@ export const formSlice: any = createSlice({
         state.formData[index] = action.payload;
       }
     },
+    deleteMultipleData: (state, action: PayloadAction<number[]>) => {
+      state.formData = state.formData.filter(item => !action.payload.includes(item.key));
+    },
   },
 });
 
-export const { addData, deleteData, editData} = formSlice.actions;
+export const { addData, deleteData, editData , deleteMultipleData } = formSlice.actions;
 
 export default formSlice.reducer;

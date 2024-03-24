@@ -11,9 +11,10 @@ import {
   Col,
   Table,
   Space,
+  Checkbox 
 } from "antd";
 import { useDispatch } from "react-redux";
-import { addData, deleteData, editData } from "../features/formSlice";
+import { addData, deleteData, editData ,deleteMultipleData } from "../features/formSlice";
 import { PersonFormData } from "../types";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -53,8 +54,28 @@ const FormManagement: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [tableData, setTableData] = useState<TableDataType[]>([]);
 
+  const onSelectChange = (selectedRowKeys: React.Key[]) => {
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    setSelectedRowKeys(selectedRowKeys);
+  };
+  const handleDeleteSelected = () => {
+    const newData = tableData.filter(item => !selectedRowKeys.includes(item.key));
+    setTableData(newData);
+    setSelectedRowKeys([]);
+  
+    localStorage.setItem("tableData", JSON.stringify(newData));
+
+    dispatch(deleteMultipleData(selectedRowKeys));
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+  
   const onFinish = (values: PersonFormData) => {
     const formattedBirthdate = moment.isMoment(values.birthdate)
       ? values.birthdate.format("YYYY-MM-DD")
@@ -62,7 +83,7 @@ const FormManagement: React.FC = () => {
 
     const newData = {
       key: Date.now(),
-      name: `${values.prefix} ${values.firstName} ${values.lastName}`,
+      name: `${values.firstName} ${values.lastName}`,
       gender: values.gender,
       phoneCountryCode: values.phoneCountryCode,
       phoneNumber: values.phoneNumber,
@@ -91,12 +112,12 @@ const FormManagement: React.FC = () => {
   };
 
   const columns = [
-    { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Gender", dataIndex: "gender", key: "gender" },
-    { title: "PhoneNumber", dataIndex: "phoneNumber", key: "phoneNumber" },
-    { title: "Nationality", dataIndex: "nationality", key: "nationality" },
+    { title: `${t("name")}`, dataIndex: "name", key: "name" },
+    { title: `${t("gender")}`, dataIndex: "gender", key: "gender" },
+    { title: `${t("phoneNumber")}`, dataIndex: "phoneNumber", key: "phoneNumber" },
+    { title: `${t("nationality")}`, dataIndex: "nationality", key: "nationality" },
     {
-      title: "Action",
+      title: `${t("action")}`,
       key: "action",
       render: (_: any, record: { key: any }) => (
         <Space size="middle">
@@ -352,7 +373,24 @@ const FormManagement: React.FC = () => {
         </Form>
       </div>
       <div className="pb-5">
-        <Table columns={columns} dataSource={tableData} />
+      <Space style={{ marginBottom: 16 }}>
+      <Checkbox
+          onChange={(e) => {
+            if (e.target.checked) {
+              const allKeys = tableData.map((item) => item.key);
+              setSelectedRowKeys(allKeys);
+            } else {
+              setSelectedRowKeys([]);
+            }
+          }}
+        >
+          {t("select_all")}
+        </Checkbox>
+        <Button onClick={handleDeleteSelected} disabled={!selectedRowKeys.length}>
+        {t("delete")}
+        </Button>
+      </Space>
+        <Table rowSelection={rowSelection} columns={columns} dataSource={tableData} />
       </div>
     </div>
   );
