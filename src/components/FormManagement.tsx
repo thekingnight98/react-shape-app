@@ -11,10 +11,15 @@ import {
   Col,
   Table,
   Space,
-  Checkbox 
+  Checkbox,
 } from "antd";
 import { useDispatch } from "react-redux";
-import { addData, deleteData, editData ,deleteMultipleData } from "../features/formSlice";
+import {
+  addData,
+  deleteData,
+  editData,
+  deleteMultipleData,
+} from "../features/formSlice";
 import { PersonFormData } from "../types";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -57,15 +62,18 @@ const FormManagement: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [tableData, setTableData] = useState<TableDataType[]>([]);
 
+  // เกี่ยวกับ select check_box
   const onSelectChange = (selectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
   const handleDeleteSelected = () => {
-    const newData = tableData.filter(item => !selectedRowKeys.includes(item.key));
+    const newData = tableData.filter(
+      (item) => !selectedRowKeys.includes(item.key)
+    );
     setTableData(newData);
     setSelectedRowKeys([]);
-  
+
     localStorage.setItem("tableData", JSON.stringify(newData));
 
     dispatch(deleteMultipleData(selectedRowKeys));
@@ -75,7 +83,10 @@ const FormManagement: React.FC = () => {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-  
+// เกี่ยวกับ select check_box
+
+
+// form action ต่างๆ
   const onFinish = (values: PersonFormData) => {
     const formattedBirthdate = moment.isMoment(values.birthdate)
       ? values.birthdate.format("YYYY-MM-DD")
@@ -111,11 +122,38 @@ const FormManagement: React.FC = () => {
     dispatch(editData(editedData));
   };
 
+  const onReset = () => {
+    form.resetFields();
+  };
+// form action ต่างๆ
+
+// table
   const columns = [
-    { title: `${t("name")}`, dataIndex: "name", key: "name" },
-    { title: `${t("gender")}`, dataIndex: "gender", key: "gender" },
-    { title: `${t("phoneNumber")}`, dataIndex: "phoneNumber", key: "phoneNumber" },
-    { title: `${t("nationality")}`, dataIndex: "nationality", key: "nationality" },
+    {
+      title: `${t("name")}`,
+      dataIndex: "name",
+      key: "name",
+      sorter: (a: { name: string }, b: { name: string }) =>
+        a.name.localeCompare(b.name),
+    },
+    {
+      title: `${t("gender")}`,
+      dataIndex: "gender",
+      key: "gender",
+      sorter: (a: { gender: string; }, b: { gender: any; }) => a.gender.localeCompare(b.gender),
+    },
+    {
+      title: `${t("phoneNumber")}`,
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      sorter: (a: { phoneNumber: string; }, b: { phoneNumber: any; }) => a.phoneNumber.localeCompare(b.phoneNumber),
+    },
+    {
+      title: `${t("nationality")}`,
+      dataIndex: "nationality",
+      key: "nationality",
+      sorter: (a: { nationality: string; }, b: { nationality: any; }) => a.nationality.localeCompare(b.nationality),
+    },
     {
       title: `${t("action")}`,
       key: "action",
@@ -128,10 +166,9 @@ const FormManagement: React.FC = () => {
       ),
     },
   ];
+// end table
 
-  const onReset = () => {
-    form.resetFields();
-  };
+ 
 
   useEffect(() => {
     // โหลดข้อมูลจาก Local Storage และกำหนดให้กับ state เมื่อคอมโพเนนต์ถูกโหลด
@@ -373,24 +410,32 @@ const FormManagement: React.FC = () => {
         </Form>
       </div>
       <div className="pb-5">
-      <Space style={{ marginBottom: 16 }}>
-      <Checkbox
-          onChange={(e) => {
-            if (e.target.checked) {
-              const allKeys = tableData.map((item) => item.key);
-              setSelectedRowKeys(allKeys);
-            } else {
-              setSelectedRowKeys([]);
-            }
-          }}
-        >
-          {t("select_all")}
-        </Checkbox>
-        <Button onClick={handleDeleteSelected} disabled={!selectedRowKeys.length}>
-        {t("delete")}
-        </Button>
-      </Space>
-        <Table rowSelection={rowSelection} columns={columns} dataSource={tableData} />
+        <Space style={{ marginBottom: 16 }}>
+          <Checkbox
+            onChange={(e) => {
+              if (e.target.checked) {
+                const allKeys = tableData.map((item) => item.key);
+                setSelectedRowKeys(allKeys);
+              } else {
+                setSelectedRowKeys([]);
+              }
+            }}
+          >
+            {t("select_all")}
+          </Checkbox>
+          <Button
+            onClick={handleDeleteSelected}
+            disabled={!selectedRowKeys.length}
+          >
+            {t("delete")}
+          </Button>
+        </Space>
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={tableData}
+          pagination={{ pageSize: 5 }}
+        />
       </div>
     </div>
   );
