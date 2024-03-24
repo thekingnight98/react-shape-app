@@ -1,6 +1,7 @@
 import moment from "moment";
 
 export interface PersonFormData {
+  key: number;
   prefix: string;
   firstName: string;
   lastName: string;

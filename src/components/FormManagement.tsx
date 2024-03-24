@@ -14,7 +14,7 @@ import {
   Space,
 } from "antd";
 import { useDispatch } from "react-redux";
-import { addData } from "../features/formSlice";
+import { addData , deleteData , editData} from "../features/formSlice";
 import { PersonFormData } from "../types";
 import { useTranslation } from "react-i18next";
 
@@ -63,7 +63,12 @@ const FormManagement: React.FC = () => {
 
   const handleDelete = (key: number) => {
     const dataSource = [...tableData];
+    dispatch(deleteData(key));
     setTableData(dataSource.filter((item) => item.key !== key));
+  };
+
+  const handleEdit = (editedData: PersonFormData) => {
+    dispatch(editData(editedData));
   };
 
   const columns = [
@@ -76,6 +81,7 @@ const FormManagement: React.FC = () => {
       key: "action",
       render: (_: any, record: { key: any }) => (
         <Space size="middle">
+          <Button onClick={() => handleEdit(record.key)} type="link">Edit</Button>
           <Button onClick={() => handleDelete(record.key)} type="link">
             Delete
           </Button>

@@ -9,17 +9,25 @@ const initialState: FormState = {
   formData: [],
 };
 
-export const formSlice:any = createSlice({
+export const formSlice: any = createSlice({
   name: 'form',
   initialState,
   reducers: {
     addData: (state, action: PayloadAction<PersonFormData>) => {
       state.formData.push(action.payload);
     },
-    // Define other reducers like editData, deleteData here
+    deleteData: (state, action: PayloadAction<number>) => {
+      state.formData = state.formData.filter((item) => item.key !== action.payload);
+    },
+    editData: (state, action: PayloadAction<PersonFormData>) => {
+      const index = state.formData.findIndex((item) => item.key === action.payload.key);
+      if (index !== -1) {
+        state.formData[index] = action.payload;
+      }
+    },
   },
 });
 
-export const { addData } = formSlice.actions;
+export const { addData, deleteData, editData} = formSlice.actions;
 
 export default formSlice.reducer;
