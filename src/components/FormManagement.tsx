@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import {
   Form,
@@ -17,7 +17,6 @@ import { useDispatch } from "react-redux";
 import {
   addData,
   deleteData,
-  editData,
   deleteMultipleData,
 } from "../features/formSlice";
 import { PersonFormData } from "../types";
@@ -116,10 +115,6 @@ const FormManagement: React.FC = () => {
     setTableData(updatedData);
     dispatch(deleteData(key));
     localStorage.setItem("tableData", JSON.stringify(updatedData));
-  };
-
-  const handleEdit = (editedData: PersonFormData) => {
-    dispatch(editData(editedData));
   };
 
   const onReset = () => {
