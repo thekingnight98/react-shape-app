@@ -184,7 +184,7 @@ const FormManagement: React.FC = () => {
     <div className="mb-4 mx-4">
       <div className="flex justify-between">
         <h2 className="ml-4">{t("form_management")}</h2>
-        <Button onClick={() => navigate("/")}>หน้าหลัก</Button>
+        <Button onClick={() => navigate("/")}>{t("home_page")}</Button>
       </div>
       <div className="container">
         <Form
@@ -201,9 +201,9 @@ const FormManagement: React.FC = () => {
                 rules={[{ required: true, message: `${t("error_prefix")}` }]}
               >
                 <Select placeholder="Select a prefix">
-                  <Option value="mr">{t("mr")}</Option>
-                  <Option value="ms">{t("ms")}</Option>
-                  <Option value="mrs">{t("mrs")}</Option>
+                  <Option value={t("mr")}>{t("mr")}</Option>
+                  <Option value={t("ms")}>{t("ms")}</Option>
+                  <Option value={t("mrs")}>{t("mrs")}</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -250,7 +250,7 @@ const FormManagement: React.FC = () => {
                 ]}
               >
                 <Select placeholder="Select a nationality">
-                  <Option value="thai">ไทย</Option>
+                  <Option value={t("thai")}>{t("thai")}</Option>
                   {/* เพิ่มรหัสประเทศอื่นๆ */}
                 </Select>
               </Form.Item>
@@ -333,9 +333,9 @@ const FormManagement: React.FC = () => {
                 rules={[{ required: true, message: t("error_gender") }]}
               >
                 <Radio.Group>
-                  <Radio value="male">{t("gender_male")}</Radio>
-                  <Radio value="female">{t("gender_female")}</Radio>
-                  <Radio value="unspecified">{t("gender_unspecified")}</Radio>
+                  <Radio value={t("gender_male")}>{t("gender_male")}</Radio>
+                  <Radio value={t("gender_female")}>{t("gender_female")}</Radio>
+                  <Radio value={t("gender_unspecified")}>{t("gender_unspecified")}</Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
