@@ -34,7 +34,7 @@ function LayoutStyle() {
       if (prevShapes.length > 0) {
         const newShapes = [...prevShapes];
         const firstShape = newShapes.shift(); // ลบรูปทรงตัวแรกและรับค่านั้น
-        if (firstShape !== undefined) { 
+        if (firstShape !== undefined) {
           newShapes.push(firstShape); // เพิ่มรูปทรงนั้นไปที่สุดท้ายของ array ถ้าไม่ใช่ undefined
         }
         return newShapes;
@@ -59,7 +59,10 @@ function LayoutStyle() {
       let randomizedShapes = [...prevShapes];
       for (let i = randomizedShapes.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [randomizedShapes[i], randomizedShapes[j]] = [randomizedShapes[j], randomizedShapes[i]]; 
+        [randomizedShapes[i], randomizedShapes[j]] = [
+          randomizedShapes[j],
+          randomizedShapes[i],
+        ];
       }
       return randomizedShapes;
     });
@@ -79,7 +82,7 @@ function LayoutStyle() {
           </div>
         </Col>
         <Col className="flex mt-1">
-          <div  onClick={movePosition} className="layoutshape-move-position">
+          <div onClick={movePosition} className="layoutshape-move-position">
             <div className="layoutshape-move-position flex-column">
               <div className="triangle-up gap-1"></div>
               <div className="triangle-down gap-1"></div>
@@ -96,9 +99,16 @@ function LayoutStyle() {
       </Row>
 
       {/* display shapes */}
-      <Row className="mt-5 pb-5" gutter={[16, 16]}>
+      <Row className="mt-5 pb-5" gutter={[16, 16]}  justify="center">
         {shapes.map((shape, index) => (
-          <Col key={index} xs={8} lg={6}>
+          <Col
+            xs={{ flex: "100%" }}
+            sm={{ flex: "50%" }}
+            md={{ flex: "40%" }}
+            lg={{ flex: "20%" }}
+            xl={{ flex: "10%" }}
+            key={index}
+          >
             <div onClick={randomizeShapes} className={`layoutshape gap-1`}>
               <div className={`${shape}`}></div>
             </div>
