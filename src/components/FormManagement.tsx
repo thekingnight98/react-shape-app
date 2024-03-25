@@ -192,7 +192,7 @@ const FormManagement: React.FC = () => {
           autoComplete="off"
         >
           <Row gutter={24}>
-            <Col span={5}>
+            <Col span={4}>
               <Form.Item
                 name="prefix"
                 label={t("prefix")}
@@ -205,7 +205,7 @@ const FormManagement: React.FC = () => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={9}>
+            <Col span={10}>
               <Form.Item
                 name="firstName"
                 label={t("firstName")}
@@ -261,13 +261,14 @@ const FormManagement: React.FC = () => {
               <Form.Item
                 label={t("idCard")}
                 name={["idCard", "part1"]}
-                rules={[{ required: true, message: t("error_nationality") }]}
+                rules={[{ required: true, message: t("error_idCard") }]}
                 style={{ marginBottom: 0 }}
               >
                 <Row gutter={8}>
                   <Col span={2}>
                     <Form.Item>
-                      <InputNumber maxLength={1} style={{ width: "100%" }} />
+                      <InputNumber maxLength={1} 
+                      style={{ width: "100%" }} />
                     </Form.Item>
                   </Col>
                   <span style={{ margin: "0 8px" }}>-</span>
@@ -275,7 +276,7 @@ const FormManagement: React.FC = () => {
                     <Form.Item
                       name={["idCard", "part2"]}
                       rules={[
-                        { required: true, message: t("error_nationality") },
+                        { required: true, message: t("error_idCard") },
                       ]}
                       noStyle
                     >
@@ -287,7 +288,7 @@ const FormManagement: React.FC = () => {
                     <Form.Item
                       name={["idCard", "part3"]}
                       rules={[
-                        { required: true, message: t("error_nationality") },
+                        { required: true, message: t("error_idCard") },
                       ]}
                       noStyle
                     >
@@ -299,7 +300,7 @@ const FormManagement: React.FC = () => {
                     <Form.Item
                       name={["idCard", "part4"]}
                       rules={[
-                        { required: true, message: t("error_nationality") },
+                        { required: true, message: t("error_idCard") },
                       ]}
                       noStyle
                     >
@@ -311,7 +312,7 @@ const FormManagement: React.FC = () => {
                     <Form.Item
                       name={["idCard", "part5"]}
                       rules={[
-                        { required: true, message: t("error_nationality") },
+                        { required: true, message: t("error_idCard") },
                       ]}
                       noStyle
                     >
@@ -342,7 +343,7 @@ const FormManagement: React.FC = () => {
           </Row>
           {/* แถวที่ 5 */}
           <Row gutter={24}>
-            <Col span={6}>
+            <Col span={4}>
               <Form.Item
                 label={t("phoneCountryCode")}
                 name="phoneCountryCode"
@@ -363,7 +364,7 @@ const FormManagement: React.FC = () => {
                 name="phoneNumber"
                 rules={[{ required: true, message: t("error_phoneNumber") }]}
               >
-                <Input type="number" />
+               <InputNumber maxLength={10} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
           </Row>
@@ -371,7 +372,7 @@ const FormManagement: React.FC = () => {
           <Row gutter={24}>
             <Col span={10}>
               <Form.Item name="passport" label={t("passport")}>
-                <Input type="number" />
+              <InputNumber style={{ width: "100%" }} />
               </Form.Item>
             </Col>
           </Row>
