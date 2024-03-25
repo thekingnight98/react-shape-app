@@ -12,6 +12,7 @@ import {
   Table,
   Space,
   Checkbox,
+  Card
 } from "antd";
 import { useDispatch } from "react-redux";
 import {
@@ -186,7 +187,7 @@ const FormManagement: React.FC = () => {
         <h2 className="ml-4">{t("form_management")}</h2>
         <Button onClick={() => navigate("/")}>{t("home_page")}</Button>
       </div>
-      <div className="container">
+      <Card className="container">
         <Form
           form={form}
           onFinish={onFinish}
@@ -403,8 +404,8 @@ const FormManagement: React.FC = () => {
             </Col>
           </Row>
         </Form>
-      </div>
-      <div className="pb-5">
+      </Card>
+      <div className="pb-5 mt-5 ">
         <Space style={{ marginBottom: 16 }}>
           <Checkbox
             onChange={(e) => {
