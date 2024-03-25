@@ -12,14 +12,11 @@ import {
   Table,
   Space,
   Checkbox,
-  Card
+  Card,
+  InputNumber,
 } from "antd";
 import { useDispatch } from "react-redux";
-import {
-  addData,
-  deleteData,
-  deleteMultipleData,
-} from "../features/formSlice";
+import { addData, deleteData, deleteMultipleData } from "../features/formSlice";
 import { PersonFormData } from "../types";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -83,10 +80,9 @@ const FormManagement: React.FC = () => {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-// เกี่ยวกับ select check_box
+  // เกี่ยวกับ select check_box
 
-
-// form action ต่างๆ
+  // form action ต่างๆ
   const onFinish = (values: PersonFormData) => {
     const formattedBirthdate = moment.isMoment(values.birthdate)
       ? values.birthdate.format("YYYY-MM-DD")
@@ -121,9 +117,9 @@ const FormManagement: React.FC = () => {
   const onReset = () => {
     form.resetFields();
   };
-// form action ต่างๆ
+  // form action ต่างๆ
 
-// table
+  // table
   const columns = [
     {
       title: `${t("name")}`,
@@ -136,19 +132,22 @@ const FormManagement: React.FC = () => {
       title: `${t("gender")}`,
       dataIndex: "gender",
       key: "gender",
-      sorter: (a: { gender: string; }, b: { gender: any; }) => a.gender.localeCompare(b.gender),
+      sorter: (a: { gender: string }, b: { gender: any }) =>
+        a.gender.localeCompare(b.gender),
     },
     {
       title: `${t("phoneNumber")}`,
       dataIndex: "phoneNumber",
       key: "phoneNumber",
-      sorter: (a: { phoneNumber: string; }, b: { phoneNumber: any; }) => a.phoneNumber.localeCompare(b.phoneNumber),
+      sorter: (a: { phoneNumber: string }, b: { phoneNumber: any }) =>
+        a.phoneNumber.localeCompare(b.phoneNumber),
     },
     {
       title: `${t("nationality")}`,
       dataIndex: "nationality",
       key: "nationality",
-      sorter: (a: { nationality: string; }, b: { nationality: any; }) => a.nationality.localeCompare(b.nationality),
+      sorter: (a: { nationality: string }, b: { nationality: any }) =>
+        a.nationality.localeCompare(b.nationality),
     },
     {
       title: `${t("action")}`,
@@ -162,9 +161,7 @@ const FormManagement: React.FC = () => {
       ),
     },
   ];
-// end table
-
- 
+  // end table
 
   useEffect(() => {
     // โหลดข้อมูลจาก Local Storage และกำหนดให้กับ state เมื่อคอมโพเนนต์ถูกโหลด
@@ -270,7 +267,7 @@ const FormManagement: React.FC = () => {
                 <Row gutter={8}>
                   <Col span={2}>
                     <Form.Item>
-                      <Input maxLength={1} style={{ textAlign: "center" }} />
+                      <InputNumber maxLength={1} style={{ width: "100%" }} />
                     </Form.Item>
                   </Col>
                   <span style={{ margin: "0 8px" }}>-</span>
@@ -282,7 +279,7 @@ const FormManagement: React.FC = () => {
                       ]}
                       noStyle
                     >
-                      <Input maxLength={4} style={{ textAlign: "center" }} />
+                      <InputNumber maxLength={4} style={{ width: "100%" }} />
                     </Form.Item>
                   </Col>
                   <span style={{ margin: "0 8px" }}>-</span>
@@ -294,7 +291,7 @@ const FormManagement: React.FC = () => {
                       ]}
                       noStyle
                     >
-                      <Input maxLength={5} style={{ textAlign: "center" }} />
+                      <InputNumber maxLength={5} style={{ width: "100%" }} />
                     </Form.Item>
                   </Col>
                   <span style={{ margin: "0 8px" }}>-</span>
@@ -306,7 +303,7 @@ const FormManagement: React.FC = () => {
                       ]}
                       noStyle
                     >
-                      <Input maxLength={2} style={{ textAlign: "center" }} />
+                      <InputNumber maxLength={2} style={{ width: "100%" }} />
                     </Form.Item>
                   </Col>
                   <span style={{ margin: "0 8px" }}>-</span>
@@ -318,7 +315,7 @@ const FormManagement: React.FC = () => {
                       ]}
                       noStyle
                     >
-                      <Input maxLength={1} style={{ textAlign: "center" }} />
+                      <InputNumber maxLength={1} style={{ width: "100%" }} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -336,7 +333,9 @@ const FormManagement: React.FC = () => {
                 <Radio.Group>
                   <Radio value={t("gender_male")}>{t("gender_male")}</Radio>
                   <Radio value={t("gender_female")}>{t("gender_female")}</Radio>
-                  <Radio value={t("gender_unspecified")}>{t("gender_unspecified")}</Radio>
+                  <Radio value={t("gender_unspecified")}>
+                    {t("gender_unspecified")}
+                  </Radio>
                 </Radio.Group>
               </Form.Item>
             </Col>
@@ -364,7 +363,7 @@ const FormManagement: React.FC = () => {
                 name="phoneNumber"
                 rules={[{ required: true, message: t("error_phoneNumber") }]}
               >
-                <Input />
+                <Input type="number" />
               </Form.Item>
             </Col>
           </Row>
@@ -372,7 +371,7 @@ const FormManagement: React.FC = () => {
           <Row gutter={24}>
             <Col span={10}>
               <Form.Item name="passport" label={t("passport")}>
-                <Input />
+                <Input type="number" />
               </Form.Item>
             </Col>
           </Row>
