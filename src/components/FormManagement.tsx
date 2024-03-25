@@ -87,6 +87,7 @@ const FormManagement: React.FC = () => {
     const formattedBirthdate = moment.isMoment(values.birthdate)
       ? values.birthdate.format("YYYY-MM-DD")
       : values.birthdate;
+      
 
     const newData = {
       key: Date.now(),
@@ -134,6 +135,7 @@ const FormManagement: React.FC = () => {
       key: "gender",
       sorter: (a: { gender: string }, b: { gender: any }) =>
         a.gender.localeCompare(b.gender),
+      render: (gender: string) => t(gender),
     },
     {
       title: `${t("phoneNumber")}`,
@@ -148,6 +150,7 @@ const FormManagement: React.FC = () => {
       key: "nationality",
       sorter: (a: { nationality: string }, b: { nationality: any }) =>
         a.nationality.localeCompare(b.nationality),
+      render: (nationality: string) => t(nationality),
     },
     {
       title: `${t("action")}`,
@@ -248,7 +251,7 @@ const FormManagement: React.FC = () => {
                 ]}
               >
                 <Select placeholder="Select a nationality">
-                  <Option value={t("thai")}>{t("thai")}</Option>
+                  <Option value="thai">{t("thai")}</Option>
                   {/* เพิ่มรหัสประเทศอื่นๆ */}
                 </Select>
               </Form.Item>
@@ -267,17 +270,14 @@ const FormManagement: React.FC = () => {
                 <Row gutter={8}>
                   <Col span={2}>
                     <Form.Item>
-                      <InputNumber maxLength={1} 
-                      style={{ width: "100%" }} />
+                      <InputNumber maxLength={1} style={{ width: "100%" }} />
                     </Form.Item>
                   </Col>
                   <span style={{ margin: "0 8px" }}>-</span>
                   <Col span={4}>
                     <Form.Item
                       name={["idCard", "part2"]}
-                      rules={[
-                        { required: true, message: t("error_idCard") },
-                      ]}
+                      rules={[{ required: true, message: t("error_idCard") }]}
                       noStyle
                     >
                       <InputNumber maxLength={4} style={{ width: "100%" }} />
@@ -287,9 +287,7 @@ const FormManagement: React.FC = () => {
                   <Col span={4}>
                     <Form.Item
                       name={["idCard", "part3"]}
-                      rules={[
-                        { required: true, message: t("error_idCard") },
-                      ]}
+                      rules={[{ required: true, message: t("error_idCard") }]}
                       noStyle
                     >
                       <InputNumber maxLength={5} style={{ width: "100%" }} />
@@ -299,9 +297,7 @@ const FormManagement: React.FC = () => {
                   <Col span={3}>
                     <Form.Item
                       name={["idCard", "part4"]}
-                      rules={[
-                        { required: true, message: t("error_idCard") },
-                      ]}
+                      rules={[{ required: true, message: t("error_idCard") }]}
                       noStyle
                     >
                       <InputNumber maxLength={2} style={{ width: "100%" }} />
@@ -311,9 +307,7 @@ const FormManagement: React.FC = () => {
                   <Col span={2}>
                     <Form.Item
                       name={["idCard", "part5"]}
-                      rules={[
-                        { required: true, message: t("error_idCard") },
-                      ]}
+                      rules={[{ required: true, message: t("error_idCard") }]}
                       noStyle
                     >
                       <InputNumber maxLength={1} style={{ width: "100%" }} />
@@ -332,10 +326,10 @@ const FormManagement: React.FC = () => {
                 rules={[{ required: true, message: t("error_gender") }]}
               >
                 <Radio.Group>
-                  <Radio value={t("gender_male")}>{t("gender_male")}</Radio>
-                  <Radio value={t("gender_female")}>{t("gender_female")}</Radio>
-                  <Radio value={t("gender_unspecified")}>
-                    {t("gender_unspecified")}
+                  <Radio value="male">{t("male")}</Radio>
+                  <Radio value="female">{t("female")}</Radio>
+                  <Radio value="unspecified">
+                    {t("unspecified")}
                   </Radio>
                 </Radio.Group>
               </Form.Item>
@@ -343,7 +337,7 @@ const FormManagement: React.FC = () => {
           </Row>
           {/* แถวที่ 5 */}
           <Row gutter={24}>
-            <Col span={4}>
+            <Col span={5}>
               <Form.Item
                 label={t("phoneCountryCode")}
                 name="phoneCountryCode"
@@ -364,7 +358,7 @@ const FormManagement: React.FC = () => {
                 name="phoneNumber"
                 rules={[{ required: true, message: t("error_phoneNumber") }]}
               >
-               <InputNumber maxLength={10} style={{ width: "100%" }} />
+                <InputNumber maxLength={10} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
           </Row>
@@ -372,7 +366,7 @@ const FormManagement: React.FC = () => {
           <Row gutter={24}>
             <Col span={10}>
               <Form.Item name="passport" label={t("passport")}>
-              <InputNumber style={{ width: "100%" }} />
+                <InputNumber style={{ width: "100%" }} />
               </Form.Item>
             </Col>
           </Row>
